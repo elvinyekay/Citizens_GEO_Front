@@ -33,7 +33,6 @@ export default function MapPage() {
     const [polygonName, setPolygonName] = useState('');
     const [showSaveDialog, setShowSaveDialog] = useState(false);
 
-    // Alert state
     const [alert, setAlert] = useState<{
         type: 'success' | 'error' | 'warning' | 'info';
         title: string;
@@ -46,7 +45,6 @@ export default function MapPage() {
         isVisible: false
     });
 
-    // Confirm dialog state
     const [confirmDialog, setConfirmDialog] = useState<{
         isVisible: boolean;
         title: string;
@@ -59,7 +57,6 @@ export default function MapPage() {
         polygonId: null
     });
 
-    // Alert göstərmək üçün helper function
     const showAlert = (
         type: 'success' | 'error' | 'warning' | 'info',
         title: string,
@@ -71,9 +68,8 @@ export default function MapPage() {
         }, 5000);
     };
 
-    // Xəritəni başlatmaq
     useEffect(() => {
-        if (!mapRef.current || mapInstance.current) return;
+        if (!mapRef.current) return;
 
         const vectorLayer = new VectorLayer({
             source: vectorSource.current,
@@ -103,10 +99,10 @@ export default function MapPage() {
 
         return () => {
             map.setTarget(undefined);
+            mapInstance.current = null; // ƏLAVƏ: null et
         };
     }, []);
 
-    // Polygon-ları yüklə
     const loadPolygons = async () => {
         try {
             const data = await polygonService.getAll();
@@ -117,7 +113,6 @@ export default function MapPage() {
         }
     };
 
-    // Polygon çəkməyə başla
     const startDrawing = () => {
         if (!mapInstance.current) return;
 
@@ -138,7 +133,6 @@ export default function MapPage() {
         setIsDrawing(true);
     };
 
-    // Polygon çəkməni dayandır
     const stopDrawing = () => {
         if (drawInteraction.current && mapInstance.current) {
             mapInstance.current.removeInteraction(drawInteraction.current);
@@ -147,7 +141,6 @@ export default function MapPage() {
         }
     };
 
-    // Polygon-u yadda saxla
     const savePolygon = async () => {
         if (!currentFeature.current || !polygonName.trim()) {
             showAlert('warning', 'Məlumat Əksikdir', 'Zəhmət olmasa polygon adı daxil edin');
@@ -219,7 +212,6 @@ export default function MapPage() {
         }
     };
 
-    // Silməni təsdiq et (dialog göstər)
     const confirmDeletePolygon = (id: number) => {
         const polygon = polygons.find(p => p.id === id);
         if (!polygon) return;
@@ -232,7 +224,6 @@ export default function MapPage() {
         });
     };
 
-    // Polygon-u sil (təsdiq edildikdən sonra)
     const deletePolygon = async () => {
         const id = confirmDialog.polygonId;
         if (!id) return;
@@ -240,7 +231,6 @@ export default function MapPage() {
         const polygon = polygons.find(p => p.id === id);
         if (!polygon) return;
 
-        // Dialog bağla
         setConfirmDialog({
             isVisible: false,
             title: '',
@@ -276,10 +266,8 @@ export default function MapPage() {
 
     return (
         <div className="relative h-screen">
-            {/* Xəritə - tam ekran */}
             <div ref={mapRef} className="absolute inset-0 w-full h-full" />
 
-            {/* Alert - Ekranın yuxarısında */}
             {alert.isVisible && (
                 <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50 w-full max-w-md px-4 animate-in fade-in slide-in-from-top-2">
                     <Alert
@@ -290,11 +278,9 @@ export default function MapPage() {
                 </div>
             )}
 
-            {/* Confirm Dialog */}
             {confirmDialog.isVisible && (
                 <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-30">
                     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
-                        {/* Warning Alert */}
                         <div className="p-6">
                             <Alert
                                 variant="warning"
@@ -303,7 +289,6 @@ export default function MapPage() {
                             />
                         </div>
 
-                        {/* Buttons */}
                         <div className="flex items-center gap-3 px-6 pb-6">
                             <Button
                                 onClick={() => setConfirmDialog({
@@ -329,7 +314,6 @@ export default function MapPage() {
                 </div>
             )}
 
-            {/* Çəkmə düymələri */}
             <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
                 {!isDrawing ? (
                     <>
@@ -356,7 +340,6 @@ export default function MapPage() {
                 )}
             </div>
 
-            {/* Save Dialog */}
             {showSaveDialog && (
                 <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-20">
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96">
@@ -390,7 +373,6 @@ export default function MapPage() {
                 </div>
             )}
 
-            {/* Right Sidebar */}
             <div className="absolute top-0 right-0 h-full w-80 backdrop-blur-lg bg-white/80 dark:bg-gray-900/85 border-l border-white/20 dark:border-gray-700/30 p-4 overflow-y-auto shadow-2xl z-10">
                 <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Polygon-lar</h2>
 

@@ -3,11 +3,11 @@ import React, { useEffect, useRef, useState,useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useSidebar } from "../context/SidebarContext";
+import { useSidebar } from "@/context/SidebarContext";
 import {
     ChevronDownIcon,
     HorizontaLDots, MapIcon,
-    PieChartIcon,
+
     TableIcon,
 } from "../icons/index";
 
@@ -25,7 +25,7 @@ const navItems: NavItem[] = [
       path: "/",
   },
   {
-    name: "Map",
+    name: "Xəritə",
     icon: <MapIcon />,
       path: "/map"
   },
@@ -225,17 +225,17 @@ const AppSidebar: React.FC = () => {
             <>
               <Image
                 className="dark:hidden"
-                src="/images/logo/logo.svg"
+                src="/images/logo/logo-icon.svg"
                 alt="Logo"
-                width={150}
-                height={40}
+                width={32}
+                height={32}
               />
               <Image
                 className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
+                src="/images/logo/logo-icon.svg"
                 alt="Logo"
-                width={150}
-                height={40}
+                width={32}
+                height={32}
               />
             </>
           ) : (
