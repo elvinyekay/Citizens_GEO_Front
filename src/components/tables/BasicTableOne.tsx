@@ -142,7 +142,7 @@ export default function BasicTableOne ({citizens, setCitizens}: TableProps) {
                                                 <Image
                                                     width={40}
                                                     height={40}
-                                                    src={"/images/user/person.jpg"}
+                                                    src={"/images/user.jpg"}
                                                     alt={citizen.name}
                                                 />
                                             </div>
