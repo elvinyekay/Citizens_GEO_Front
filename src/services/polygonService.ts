@@ -3,13 +3,13 @@ import api from './api';
 export interface Polygon {
     id: number;
     name: string;
-    geometry: any;
+    geometry: object;
     createdAt: string;
 }
 
 export interface CreatePolygonDto {
     name: string;
-    geometry: any;
+    geometry: object;
 }
 
 export const polygonService = {

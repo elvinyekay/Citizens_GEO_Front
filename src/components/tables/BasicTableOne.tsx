@@ -28,7 +28,6 @@ interface TableProps{
 export default function BasicTableOne ({citizens, setCitizens}: TableProps) {
     const { isOpen, openModal, closeModal } = useModal();
 
-    // const [citizens, setCitizens] = useState<Citizen[]>([]);
     const [modalType, setModalType] = useState<"view" | "edit" | "delete" | null>(null);
     const [selectedCitizen, setSelectedCitizen] = useState<Citizen | null>(null);
     const [formData, setFormData] = useState<Omit<Citizen, 'id'>>({
@@ -53,14 +52,13 @@ export default function BasicTableOne ({citizens, setCitizens}: TableProps) {
 
     const handleSave = async () => {
         try {
-            // @ts-ignore
             const updatedCitizen = await citizenService.update(
-                // @ts-ignore
+                // @ts-expect-error
                 selectedCitizen.id,
-                // @ts-ignore
+                // @ts-expect-error
                 { ...formData, id: selectedCitizen.id }
             );
-            // @ts-ignore
+            // @ts-expect-error
             setCitizens((prev:Citizen[]) =>
                 prev.map((c) => (c.id === updatedCitizen.id ? updatedCitizen : c))
             );

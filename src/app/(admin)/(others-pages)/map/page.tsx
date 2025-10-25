@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
@@ -68,6 +68,16 @@ export default function MapPage() {
         }, 5000);
     };
 
+    const loadPolygons = useCallback(async () => {
+        try {
+            const data = await polygonService.getAll();
+            setPolygons(data);
+        } catch (error) {
+            console.error('Error loading polygons:', error);
+            showAlert('error', 'Xəta', 'Polygon-lar yüklənərkən xəta baş verdi');
+        }
+    }, []);
+
     useEffect(() => {
         if (!mapRef.current) return;
 
@@ -101,17 +111,8 @@ export default function MapPage() {
             map.setTarget(undefined);
             mapInstance.current = null; // ƏLAVƏ: null et
         };
-    }, []);
+    }, [loadPolygons]);
 
-    const loadPolygons = async () => {
-        try {
-            const data = await polygonService.getAll();
-            setPolygons(data);
-        } catch (error) {
-            console.error('Error loading polygons:', error);
-            showAlert('error', 'Xəta', 'Polygon-lar yüklənərkən xəta baş verdi');
-        }
-    };
 
     const startDrawing = () => {
         if (!mapInstance.current) return;
