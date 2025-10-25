@@ -208,7 +208,7 @@ export default function BasicTableOne ({citizens, setCitizens}: TableProps) {
                                 <Image
                                     width={64}
                                     height={64}
-                                    src="/images/user/person.jpg"
+                                    src="/images/user.png"
                                     alt={selectedCitizen.name}
                                     className="object-cover w-full h-full"
                                 />

@@ -1,173 +1,172 @@
-# TailAdmin Next.js - Free Next.js Tailwind Admin Dashboard Template
+# Citizens GEO - README
 
-TailAdmin is a free and open-source admin dashboard template built on **Next.js and Tailwind CSS** providing developers with everything they need to create a feature-rich and data-driven: back-end, dashboard, or admin panel solution for any sort of web project.
+## Layihə haqqında
 
-![TailAdmin - Next.js Dashboard Preview](./banner.png)
+Citizens GEO - vətəndaşların məlumatlarını idarə etmək və xəritədə coğrafi əraziləri (polygon) təyin etmək üçün full-stack web tətbiqi.
 
-With TailAdmin Next.js, you get access to all the necessary dashboard UI components, elements, and pages required to build a high-quality and complete dashboard or admin panel. Whether you're building a dashboard or admin panel for a complex web application or a simple website. 
+---
 
-TailAdmin utilizes the powerful features of **Next.js 15** and common features of Next.js such as server-side rendering (SSR), static site generation (SSG), and seamless API route integration. Combined with the advancements of **React 19** and the robustness of **TypeScript**, TailAdmin is the perfect solution to help get your project up and running quickly.
+### Deploy Linklər
+[Backend Swagger (API Docs)](https://citizens-geo-api.onrender.com/swagger/index.html)
+[Frontend Demo (Vercel)](https://citizens-geo-front.vercel.app/)
 
-## Overview
 
-TailAdmin provides essential UI components and layouts for building feature-rich, data-driven admin dashboards and control panels. It's built on:
+## Texnologiyalar
 
-- Next.js 15.x
-- React 19
+### Backend
+- .NET 8.0
+- PostgreSQL + PostGIS
+- Entity Framework Core
+- AutoMapper
+- Swagger
+
+### Frontend
+- Next.js 15
 - TypeScript
-- Tailwind CSS V4
+- OpenLayers (xəritə)
+- Tailwind CSS
 
-### Quick Links
-- [✨ Visit Website](https://tailadmin.com)
-- [📄 Documentation](https://tailadmin.com/docs)
-- [⬇️ Download](https://tailadmin.com/download)
-- [🖌️ Figma Design File (Community Edition)](https://www.figma.com/community/file/1463141366275764364)
-- [⚡ Get PRO Version](https://tailadmin.com/pricing)
+---
 
-### Demos
-- [Free Version](https://nextjs-free-demo.tailadmin.com)
-- [Pro Version](https://nextjs-demo.tailadmin.com)
+## Backend Setup
 
-### Other Versions
-- [HTML Version](https://github.com/TailAdmin/tailadmin-free-tailwind-dashboard-template)
-- [React Version](https://github.com/TailAdmin/free-react-tailwind-admin-dashboard)
-- [Vue.js Version](https://github.com/TailAdmin/vue-tailwind-admin-dashboard)
+### 1. Tələblər
+- .NET 8.0 SDK
+- PostgreSQL 15+
 
-## Installation
+### 2. Database konfiqurasiyası
 
-### Prerequisites
-To get started with TailAdmin, ensure you have the following prerequisites installed and set up:
-
-- Node.js 18.x or later (recommended to use Node.js 20.x or later)
-
-### Cloning the Repository
-Clone the repository using the following command:
-
-```bash
-git clone https://github.com/TailAdmin/free-nextjs-admin-dashboard.git
+appsettings.json faylında connection string-i dəyişin:
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=localhost;Port=5432;Database=citizendb;Username=postgres;Password=yourpassword"
+  }
+}
 ```
 
-> Windows Users: place the repository near the root of your drive if you face issues while cloning.
+### 3. Migration
+```bash
+cd Citizen_Geo_API
+dotnet ef database update
+```
 
-1. Install dependencies:
-    ```bash
-    npm install
-    # or
-    yarn install
-    ```
-    > Use `--legacy-peer-deps` flag if you face peer-dependency error during installation.
+### 4. İşə salın
+```bash
+dotnet run
+```
 
-2. Start the development server:
-    ```bash
-    npm run dev
-    # or
-    yarn dev
-    ```
+API: http://localhost:5177
+Swagger: http://localhost:5177/swagger
 
-## Components
+---
 
-TailAdmin is a pre-designed starting point for building a web-based dashboard using Next.js and Tailwind CSS. The template includes:
+## Frontend Setup
 
-- Sophisticated and accessible sidebar
-- Data visualization components
-- Profile management and custom 404 page
-- Tables and Charts(Line and Bar)
-- Authentication forms and input elements
-- Alerts, Dropdowns, Modals, Buttons and more
-- Can't forget Dark Mode 🕶️
+### 1. Tələblər
+- Node.js 18+
+- npm
 
-All components are built with React and styled using Tailwind CSS for easy customization.
+### 2. Paketləri yükləyin
+```bash
+cd Citizens_GEO_Front
+npm install
+```
 
-## Feature Comparison
+### 3. Environment variables
 
-### Free Version
-- 1 Unique Dashboard
-- 30+ dashboard components
-- 50+ UI elements
-- Basic Figma design files
-- Community support
+.env.local faylı yaradın:
+```
+NEXT_PUBLIC_API_URL=http://localhost:5177/api
+```
 
-### Pro Version
-- 5 Unique Dashboards: Analytics, Ecommerce, Marketing, CRM, Stocks (more coming soon)
-- 400+ dashboard components and UI elements
-- Complete Figma design file
-- Email support
+### 4. İşə salın
+```bash
+npm run dev
+```
 
-To learn more about pro version features and pricing, visit our [pricing page](https://tailadmin.com/pricing).
+Frontend: http://localhost:3000
 
-## Changelog
+---
 
-### Version 2.0.2 - [March 25, 2025]
+## API Endpoints
 
-- Upgraded to Next v15.2.3 for [CVE-2025-29927](https://nextjs.org/blog/cve-2025-29927) concerns
-- Included overrides vectormap for packages to prevent peer dependency errors during installation.
-- Migrated from react-flatpickr to flatpickr package for React 19 support
+### Citizens
+- GET /api/citizens - Bütün vətəndaşlar
+- GET /api/citizens/{id} - Bir vətəndaş
+- POST /api/citizens - Yeni vətəndaş
+- PUT /api/citizens/{id} - Vətəndaş məlumatını yenilə
+- DELETE /api/citizens/{id} - Vətəndaşı sil
 
-### Version 2.0.1 - [February 27, 2025]
+### Polygons
+- GET /api/polygons - Bütün polygon-lar
+- POST /api/polygons - Yeni polygon
+- DELETE /api/polygons/{id} - Polygon-u sil
 
-#### Update Overview
+---
 
-- Upgraded to Tailwind CSS v4 for better performance and efficiency.
-- Updated class usage to match the latest syntax and features.
-- Replaced deprecated class and optimized styles.
+## Xüsusiyyətlər
 
-#### Next Steps
+### Vətəndaş İdarəetməsi
+- Vətəndaş əlavə et, düzəlt, sil
+- Cədvəl görünüşü
+- Axtarış və filtrlər
 
-- Run npm install or yarn install to update dependencies.
-- Check for any style changes or compatibility issues.
-- Refer to the Tailwind CSS v4 [Migration Guide](https://tailwindcss.com/docs/upgrade-guide) on this release. if needed.
-- This update keeps the project up to date with the latest Tailwind improvements. 🚀
+### Xəritə
+- OpenLayers ilə interaktiv xəritə
+- Polygon çəkmə
+- Polygon-ları göstər/gizlət
+- Polygon silmə
 
-### v2.0.0 (February 2025)
-A major update focused on Next.js 15 implementation and comprehensive redesign.
+---
 
-#### Major Improvements
-- Complete redesign using Next.js 15 App Router and React Server Components
-- Enhanced user interface with Next.js-optimized components
-- Improved responsiveness and accessibility
-- New features including collapsible sidebar, chat screens, and calendar
-- Redesigned authentication using Next.js App Router and server actions
-- Updated data visualization using ApexCharts for React
+## Folder Strukturu
 
-#### Breaking Changes
+### Backend
+```
+Citizen_Geo_API/
+├── Controllers/
+├── Data/
+├── DTOs/
+├── Models/
+├── Repositories/
+├── Services/
+├── Migrations/
+└── Program.cs
+```
 
-- Migrated from Next.js 14 to Next.js 15
-- Chart components now use ApexCharts for React
-- Authentication flow updated to use Server Actions and middleware
+### Frontend
+```
+Citizens_GEO_Front/
+├── public/
+└── src/
+├── app/
+│   ├── (admin)/
+│   │   └── (others-pages)/
+│   ├── (full-width-pages)/
+│   ├── layout.tsx
+│   └── page.tsx
+├── components/
+│   ├── ui/
+│   ├── layout/
+│   ├── forms/
+│   └── shared/
+├── services/
+│   ├── api/
+│   ├── hooks/
+│   └── mock/
+├── types/
+├── constants/
+├── hooks/
+├── utils/
+├── styles/
+└── lib/
 
-[Read more](https://tailadmin.com/docs/update-logs/nextjs) on this release.
+```
 
-#### Breaking Changes
-- Migrated from Next.js 14 to Next.js 15
-- Chart components now use ApexCharts for React
-- Authentication flow updated to use Server Actions and middleware
+---
 
-### v1.3.4 (July 01, 2024)
-- Fixed JSvectormap rendering issues
+## Müəllif
 
-### v1.3.3 (June 20, 2024)
-- Fixed build error related to Loader component
+Elvin Yekayev
 
-### v1.3.2 (June 19, 2024)
-- Added ClickOutside component for dropdown menus
-- Refactored sidebar components
-- Updated Jsvectormap package
-
-### v1.3.1 (Feb 12, 2024)
-- Fixed layout naming consistency
-- Updated styles
-
-### v1.3.0 (Feb 05, 2024)
-- Upgraded to Next.js 14
-- Added Flatpickr integration
-- Improved form elements
-- Enhanced multiselect functionality
-- Added default layout component
-
-## License
-
-TailAdmin Next.js Free Version is released under the MIT License.
-
-## Support
-
-If you find this project helpful, please consider giving it a star on GitHub. Your support helps us continue developing and maintaining this template.
