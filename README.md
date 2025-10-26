@@ -7,8 +7,8 @@ Citizens GEO - vətəndaşların məlumatlarını idarə etmək və xəritədə 
 ---
 
 ### Deploy Linklər
-[Backend Swagger (API Docs)](https://citizens-geo-api.onrender.com/swagger/index.html)
-[Frontend Demo (Vercel)](https://citizens-geo-front.vercel.app/)
+- [Backend Swagger (API Docs)](https://citizens-geo-api.onrender.com/swagger/index.html)
+- [Frontend Demo (Vercel)](https://citizens-geo-front.vercel.app/)
 
 
 ## Texnologiyalar
